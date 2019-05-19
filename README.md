@@ -21,6 +21,8 @@ Follow this section to set up an environment for the demo.
 
 For more details refer to https://docs.gridgain.com/docs
 
+GridGain Kafka Connect (the code is to be integrated in the demo): https://docs.gridgain.com/docs/certified-kafka-connector-quickstart
+
 ## Confluent
 TODO
 
