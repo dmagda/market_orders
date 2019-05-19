@@ -2,9 +2,6 @@
 
 Confluent Kafka and GridGain/Ignite Market Orders Streaming demo.
 
-# Orders Source
-
-https://www.pubnub.com/developers/realtime-data-streams/financial-securities-market-orders/
 
 # Installation
 

@@ -29,6 +29,9 @@ public class MarketOrdersStream {
 
      */
     public MarketOrdersStream(IMCStorage storage) {
+        // A public Market Orders real-time stream is used for the sake of the demo:
+        // https://www.pubnub.com/developers/realtime-data-streams/financial-securities-market-orders/
+
         cfg = new PNConfiguration();
         cfg.setSubscribeKey("sub-c-4377ab04-f100-11e3-bffd-02ee2ddab7fe");
 
