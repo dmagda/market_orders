@@ -11,6 +11,11 @@
             <id>GridGain External Repository</id>
             <url>http://www.gridgainsystems.com/nexus/content/repositories/external</url>
         </repository>
+
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -18,6 +23,18 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <!-- For CP 3.0.0 -->
+            <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gridgain</groupId>
+            <artifactId>gridgain-kafka-connect</artifactId>
+            <version>${gridgain.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.gridgain</groupId>
@@ -43,11 +60,11 @@
             <version>${gridgain.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.storage</groupId>-->
-            <!--<artifactId>storage-core</artifactId>-->
-            <!--<version>${storage.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.gridgain</groupId>
+            <artifactId>gridgain-core</artifactId>
+            <version>${gridgain.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.pubnub</groupId>
