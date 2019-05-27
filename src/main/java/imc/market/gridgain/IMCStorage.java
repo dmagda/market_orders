@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package imc.market.gridgain;
 
 import com.google.gson.JsonElement;
@@ -20,8 +37,6 @@ public class IMCStorage {
     private Ignite ignite;
 
     private IgniteCache gatewayCache;
-
-    private AtomicLong counter;
 
     /**
      *
@@ -50,40 +65,10 @@ public class IMCStorage {
                 "symbol varchar," +
                 "order_quantity int," +
                 "bid_price double," +
-                "trade_type int," +
-                "order_date timestamp) WITH \"backups=1\"").setSchema("PUBLIC")).getAll();
+                "trade_type varchar," +
+                "order_date timestamp) WITH \"backups=1, cache_name=MarketOrder, value_type=MarketOrder\"").
+            setSchema("PUBLIC")).getAll();
 
-        counter = new AtomicLong();
-    }
-
-    public void storeMarketOrder(JsonObject order) {
-        gatewayCache.query(new SqlFieldsQuery(
-            "INSERT INTO MarketOrder (id, symbol, order_quantity, bid_price, trade_type, order_date)" +
-            " VALUES (" + counter.getAndIncrement() + ", " +
-                "'" + order.get("symbol").getAsString() + "', " +
-                order.get("order_quantity").getAsInt() + ", " +
-                order.get("bid_price").getAsDouble() + ", " +
-                tradeTypeStrToInt(order.get("trade_type").getAsString()) + ", " +
-                "'" + new Timestamp(order.get("timestamp").getAsLong() * 1000) + "'" +
-                ")").setSchema("PUBLIC")).getAll();
-    }
-
-    private int tradeTypeStrToInt(String tradeType) {
-        if (tradeType.equalsIgnoreCase("day"))
-            return 1;
-
-        if (tradeType.equalsIgnoreCase("stop"))
-            return 2;
-
-        if (tradeType.equalsIgnoreCase("fill or kill"))
-            return 3;
-
-        if (tradeType.equalsIgnoreCase("market"))
-            return 4;
-
-        if (tradeType.equalsIgnoreCase("limit"))
-            return 5;
-
-        throw new RuntimeException("Unknown trade type:" + tradeType);
+        ignite.close();
     }
 }
