@@ -150,7 +150,7 @@ public class MarketOrdersSourceTask extends SourceTask {
 
                 val.put("symbol", json.get("symbol").getAsString());
                 val.put("order_quantity", json.get("order_quantity").getAsInt());
-                val.put("bid_price", json.get("bid_price").getAsFloat());
+                val.put("bid_price", json.get("bid_price").getAsDouble());
                 val.put("trade_type", json.get("trade_type").getAsString());
                 val.put("timestamp", new Timestamp(json.get("timestamp").getAsLong() * 1000));
 

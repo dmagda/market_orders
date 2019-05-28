@@ -117,10 +117,11 @@ public class MarketOrdersSourceConnector extends SourceConnector {
          * @return
          */
         protected static Schema schema() {
+
             return SchemaBuilder.struct().name("MarketOrder")
                 .field("symbol", Schema.STRING_SCHEMA)
                 .field("order_quantity", Schema.INT32_SCHEMA)
-                .field("bid_price", Schema.FLOAT32_SCHEMA)
+                .field("bid_price", Schema.FLOAT64_SCHEMA)
                 .field("trade_type", Schema.STRING_SCHEMA)
                 .field("timestamp", org.apache.kafka.connect.data.Timestamp.SCHEMA)
                 .build();
