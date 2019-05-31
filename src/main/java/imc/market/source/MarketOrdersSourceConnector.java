@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.ignite.IgniteCache;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.data.Schema;
@@ -109,14 +110,14 @@ public class MarketOrdersSourceConnector extends SourceConnector {
     }
 
     /**
-     * MarketOrders custom schema.
+     * MarketOrders custom valueSchema.
      */
     protected static class MarketOrderSchema {
         /**
-         * Returns market order schema.
+         * Returns market order valueSchema.
          * @return
          */
-        protected static Schema schema() {
+        protected static Schema valueSchema() {
 
             return SchemaBuilder.struct().name("MarketOrder")
                 .field("symbol", Schema.STRING_SCHEMA)
@@ -124,6 +125,17 @@ public class MarketOrdersSourceConnector extends SourceConnector {
                 .field("bid_price", Schema.FLOAT64_SCHEMA)
                 .field("trade_type", Schema.STRING_SCHEMA)
                 .field("timestamp", org.apache.kafka.connect.data.Timestamp.SCHEMA)
+                .build();
+        }
+
+        /**
+         * Returns key object's schema.
+         * @return
+         */
+        protected static Schema keySchema() {
+            return SchemaBuilder.struct().name("MarketOrderKey")
+                .field("id", Schema.INT64_SCHEMA)
+                .field("buyer_id", Schema.INT32_SCHEMA)
                 .build();
         }
     }

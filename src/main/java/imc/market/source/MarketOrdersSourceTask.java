@@ -32,11 +32,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
+import sun.jvm.hotspot.oops.Mark;
 
 /**
  * Connector Source task that receives and processes market orders data.
@@ -142,10 +144,13 @@ public class MarketOrdersSourceTask extends SourceTask {
                     return;
                 }
 
-                long id = counter.incrementAndGet();
+                Schema keySchema = MarketOrdersSourceConnector.MarketOrderSchema.keySchema();
+                Struct key = new Struct(keySchema);
 
-                Schema valSchema = MarketOrdersSourceConnector.MarketOrderSchema.schema();
+                key.put("id", counter.incrementAndGet());
+                key.put("buyer_id", new Random().nextInt(6) + 1);
 
+                Schema valSchema = MarketOrdersSourceConnector.MarketOrderSchema.valueSchema();
                 Struct val = new Struct(valSchema);
 
                 val.put("symbol", json.get("symbol").getAsString());
@@ -155,10 +160,10 @@ public class MarketOrdersSourceTask extends SourceTask {
                 val.put("timestamp", new Timestamp(json.get("timestamp").getAsLong() * 1000));
 
                 Map sourcePartition = Collections.singletonMap("stream", streamName);
-                Map sourceOffset = Collections.singletonMap("position", id);
+                Map sourceOffset = Collections.singletonMap("position", key.get("id"));
 
                 SourceRecord record = new SourceRecord(sourcePartition, sourceOffset, topicName,
-                    Schema.INT64_SCHEMA, id, valSchema, val);
+                    keySchema, key, valSchema, val);
 
                 lastRecords.add(record);
             }

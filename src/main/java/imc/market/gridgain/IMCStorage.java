@@ -60,14 +60,42 @@ public class IMCStorage {
             "DROP TABLE IF EXISTS MarketOrder").setSchema("PUBLIC")).getAll();
 
         gatewayCache.query(new SqlFieldsQuery(
+            "DROP TABLE IF EXISTS Buyer").setSchema("PUBLIC")).getAll();
+
+        gatewayCache.query(new SqlFieldsQuery(
             "CREATE TABLE MarketOrder (" +
-                "id long PRIMARY KEY," +
+                "id long," +
+                "buyer_id int," +
                 "symbol varchar," +
                 "order_quantity int," +
                 "bid_price double," +
                 "trade_type varchar," +
-                "order_date timestamp) WITH \"backups=1, cache_name=MarketOrder, value_type=MarketOrder\"").
+                "order_date timestamp," +
+                "PRIMARY KEY(id, buyer_id)) " +
+                "WITH \"backups=1, cache_name=MarketOrder, affinity_key=buyer_id, " +
+                "key_type=MarketOrderKey, value_type=MarketOrder\"").
             setSchema("PUBLIC")).getAll();
+
+        gatewayCache.query(new SqlFieldsQuery(
+            "CREATE TABLE Buyer (" +
+                "id int PRIMARY KEY," +
+                "first_name varchar," +
+                "last_name varchar," +
+                "age int," +
+                "goverment_id varchar) " +
+                "WITH \"backups=1, cache_name=Buyer, value_type=Buyer\""
+        ).setSchema("PUBLIC")).getAll();
+
+        SqlFieldsQuery query = new SqlFieldsQuery(
+            "INSERT INTO Buyer (id, first_name, last_name, age, goverment_id) VALUES (?,?,?,?,?)").
+            setSchema("PUBLIC");
+
+        gatewayCache.query(query.setArgs(1, "John", "Smith", 45, "7bfjd73"));
+        gatewayCache.query(query.setArgs(2, "Arnold", "Mazer", 55, "unb23212"));
+        gatewayCache.query(query.setArgs(3, "Lara", "Croft", 35, "12338fb31"));
+        gatewayCache.query(query.setArgs(4, "Patrick", "Green", 42, "asbn233"));
+        gatewayCache.query(query.setArgs(5, "Anna", "Romanoff", 46, "klnnk3823"));
+        gatewayCache.query(query.setArgs(6, "Alfred", "Black", 55, "32345"));
 
         ignite.close();
     }
