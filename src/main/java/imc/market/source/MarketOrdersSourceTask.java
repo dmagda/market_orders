@@ -38,7 +38,6 @@ import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
-import sun.jvm.hotspot.oops.Mark;
 
 /**
  * Connector Source task that receives and processes market orders data.

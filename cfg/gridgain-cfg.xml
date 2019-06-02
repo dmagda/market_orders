@@ -18,9 +18,21 @@
             <bean class="org.apache.ignite.configuration.DataStorageConfiguration">
                 <property name="defaultDataRegionConfiguration">
                     <bean class="org.apache.ignite.configuration.DataRegionConfiguration">
+                        <property name="name" value="Default_Region"/>
+
+                        <!-- Enabling Ignite persistence to ensure no data is lost -->
                         <property name="persistenceEnabled" value="true"/>
+
+                        <!-- Setting max RAM per size to 200MB. -->
+                        <property name="maxSize" value="#{200 * 1024 * 1024}"/>
+
+                        <!-- Enable metrics for this data region  -->
+                        <property name="metricsEnabled" value="true"/>
                     </bean>
                 </property>
+
+                <!-- Enable metrics for Ignite persistence  -->
+                <property name="metricsEnabled" value="true"/>
             </bean>
         </property>
 
