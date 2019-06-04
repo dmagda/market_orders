@@ -49,7 +49,19 @@ or from your favourite IDE.
 `./confluent load market-orders -d {demo_project_root}/market_orders/cfg/market-orders-source.properties`
 * Check that the Source Connector is running: `./confluent status market-orders`
 
-### Real-Time Analytics
+Go to Confluent Web Console and demonstrate the following queries:
+
+`select symbol, sum(order_quantity) as total, bid_price
+from MARKETORDER  WINDOW TUMBLING (SIZE 10 seconds) 
+where bid_price>500.0
+group by symbol, bid_price
+having sum(order_quantity) > 10;`
+
+
+`SELECT symbol, SUM(bid_price) as mp
+FROM MarketOrder GROUP BY(symbol);`
+
+### Real-Time Analytics with GridGain
 
 Events will be generated and arriving in the cluster in real-time. Run sample queries like those below for
 the demo purpose:
