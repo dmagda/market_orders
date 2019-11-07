@@ -9,8 +9,5 @@
         <module name="market" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8">
-      <module name="market" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

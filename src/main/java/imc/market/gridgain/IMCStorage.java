@@ -31,6 +31,7 @@ import org.apache.ignite.Ignition;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.events.EventType;
 
 public class IMCStorage {
 

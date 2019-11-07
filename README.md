@@ -8,7 +8,7 @@ Confluent Kafka and GridGain/Ignite Market Orders Streaming demo.
 * Download and decompose [GridGain Enterprise Edition 8.7.5 or later](https://www.gridgain.com/resources/download)
 * Move `{gridgain}/libs/optional/ignite-rest-http` folder to `{gridgain}/bin/libs` 
 * Navigate to `{gridgain}/bin` folder and start a server node(s): `./ignite.sh -J-DIGNITE_JETTY_PORT=9080 {demo_project_root}/market_orders/cfg/gridgain-cfg.xml`
-* Start `Bootstrapper` class from your idea to create demo tables and preload initial data. Plus, the cluster will
+* Start `Bootstrapper` class from your IDE to create demo tables and preload initial data. Plus, the cluster will
 be activated if it was started for the first time. The activation is required for clusters with Ignite Persistence.
 
 ### Monitoring the Demo Cluster
@@ -23,9 +23,10 @@ be activated if it was started for the first time. The activation is required fo
 
 If Java 9+ is used by default then switch to Java 8 in a command line window to be used for Confluent
 scripts. Use this command on Mac OS:
-export JAVA_HOME="`/usr/libexec/java_home -v '1.8.0_191'`"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/"
 
 ### Install Confluent and GridGain Connect
+* Go to `{gridgain}/integration/gridgain-kafka-connect/` and execute `./copy-dependencies.sh ` script from there
 * Download and install Confluent Platform 5.2.1 or later following 
 [this guide](https://docs.confluent.io/current/connect/quickstart.html#connect-quickstart)
 * Go to `{confluent}/share/java` and create folder `gridgain-sink` there
@@ -49,7 +50,7 @@ or from your favourite IDE.
 `./confluent load market-orders -d {demo_project_root}/market_orders/cfg/market-orders-source.properties`
 * Check that the Source Connector is running: `./confluent status market-orders`
 
-Go to Confluent Web Console and demonstrate the following queries:
+Go to Confluent Web Console (`http://localhost:9021`) and demonstrate the following queries:
 
 `select symbol, sum(order_quantity) as total, bid_price
 from MARKETORDER  WINDOW TUMBLING (SIZE 10 seconds) 
