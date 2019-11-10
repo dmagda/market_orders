@@ -43,6 +43,8 @@ or from your favourite IDE.
 
 ### Starting Confluent, Loading Source and Sink
 * Go to `{confluent}/bin` folder and start Confluent CLI with default clusters: `./confluent start`
+* Update `igniteCfg` parameter with an actual path to the `grdgain-cfg.xml` in the file below
+`{demo_project_root}/market_orders/cfg/gridgain-sink.properties`
 * Load GridGain Sink Connector:
 `./confluent load gridgain-sink -d {demo_project_root}/market_orders/cfg/gridgain-sink.properties`
 * Check that the Connector is up and running: `./confluent status gridgain-sink`
